@@ -53,7 +53,10 @@ def SearchQuestView(request):
     except:
         counts = 0
     if int(counts) == 0:
-        error_text = soup.find("form", id="search_form").find('h4').text.strip()
+        if resp.status_code == 500:
+            error_text = "savollar.islom.uz sayti ishlamayapti!"
+        else:
+            error_text = soup.find("form", id="search_form").find('h4').text.strip()
         return JsonResponse({'ok': False, 'error_text': error_text},
                             json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
     try:
